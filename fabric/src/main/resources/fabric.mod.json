@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "${mod_authors}"
+  ],
+  "contact": {
+    "issues": "https://github.com/cyfrit/MF3FF/issues",
+    "sources": "https://github.com/cyfrit/MF3FF"
+  },
+  "license": "Unlicense",
+  "icon": "icon.png",
+  "environment": "*",
+  "mixins": [
+    "mf3ff.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "${fabric_loader_range}",
+    "minecraft": ">=${minecraft_version}",
+    "java": ">=25"
+  }
+}

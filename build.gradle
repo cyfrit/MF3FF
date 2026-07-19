@@ -1,0 +1,66 @@
+plugins {
+    id 'base'
+}
+
+group = mod_group
+version = mod_version
+
+subprojects {
+    group = rootProject.group
+    version = "${rootProject.version}+mc${minecraft_version}"
+
+    plugins.withType(JavaPlugin).configureEach {
+        java {
+            toolchain.languageVersion = JavaLanguageVersion.of(25)
+            withSourcesJar()
+        }
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+        options.release = 25
+    }
+
+    tasks.withType(ProcessResources).configureEach {
+        filteringCharset = 'UTF-8'
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
+    tasks.withType(Jar).configureEach {
+        from(rootProject.file('LICENSE.txt')) {
+            rename { "LICENSE_${mod_id}.txt" }
+        }
+        manifest {
+            attributes(
+                    'Implementation-Title': mod_name,
+                    'Implementation-Version': project.version,
+                    'Implementation-Vendor': mod_authors
+            )
+        }
+    }
+}
+
+tasks.register('collectArtifacts', Copy) {
+    dependsOn ':fabric:remapJar', ':forge:jar', ':neoforge:jar'
+
+    from(project(':fabric').layout.buildDirectory.dir('libs')) {
+        include "${mod_id}-fabric-${mod_version}+mc${minecraft_version}.jar"
+    }
+    from(project(':forge').layout.buildDirectory.dir('libs')) {
+        include "${mod_id}-forge-${mod_version}+mc${minecraft_version}.jar"
+    }
+    from(project(':neoforge').layout.buildDirectory.dir('libs')) {
+        include "${mod_id}-neoforge-${mod_version}+mc${minecraft_version}.jar"
+    }
+    into layout.buildDirectory.dir('releases')
+}
+
+tasks.register('verifyReleaseVersion') {
+    doLast {
+        def expected = "v${mod_version}+mc${minecraft_version}"
+        def actual = System.getenv('GITHUB_REF_NAME')
+        if (actual != expected) {
+            throw new GradleException("Release tag '${actual}' must be '${expected}'")
+        }
+    }
+}

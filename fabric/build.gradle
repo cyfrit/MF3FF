@@ -1,0 +1,43 @@
+plugins {
+    alias libs.plugins.fabric.loom
+}
+
+base {
+    archivesName = "${mod_id}-fabric"
+}
+
+sourceSets.main.java.srcDir rootProject.file('common/src/main/java')
+sourceSets.main.resources.srcDir rootProject.file('common/src/main/resources')
+
+loom {
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    minecraft libs.minecraft.snapshot
+    implementation libs.fabric.loader
+}
+
+processResources {
+    def properties = [
+            mod_id             : mod_id,
+            mod_name           : mod_name,
+            mod_version        : project.version,
+            mod_authors        : mod_authors,
+            mod_description    : mod_description,
+            fabric_loader_range: fabric_loader_range,
+            minecraft_version  : minecraft_version
+    ]
+    inputs.properties properties
+    filesMatching('fabric.mod.json') {
+        expand properties
+    }
+}
+
+tasks.named('remapJar') {
+    archiveFileName = "${mod_id}-fabric-${project.version}.jar"
+}
