@@ -38,6 +38,6 @@ processResources {
     }
 }
 
-tasks.named('remapJar') {
+jar {
     archiveFileName = "${mod_id}-fabric-${project.version}.jar"
 }

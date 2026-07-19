@@ -41,7 +41,7 @@ subprojects {
 }
 
 tasks.register('collectArtifacts', Copy) {
-    dependsOn ':fabric:remapJar', ':forge:jar', ':neoforge:jar'
+    dependsOn ':fabric:jar', ':forge:jar', ':neoforge:jar'
 
     from(project(':fabric').layout.buildDirectory.dir('libs')) {
         include "${mod_id}-fabric-${mod_version}+mc${minecraft_version}.jar"
