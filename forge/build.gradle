@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation minecraft.dependency("net.minecraftforge:forge:${libs.versions.forge.get()}")
+    implementation minecraft.dependency("net.minecraftforge:forge:${libs.versions.forge.runtime.get()}")
 }
 
 processResources {
