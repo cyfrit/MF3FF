@@ -5,7 +5,7 @@ fabric-loom = "1.16.3"
 forge-runtime = "26.2-65.0.4"
 forge-gradle = "7.0.31"
 neoforge-runtime = "26.2.0.15-beta"
-neoforge-moddev = "2.0.142"
+neoforge-moddev = "2.0.143"
 
 [libraries]
 minecraft-snapshot = { module = "com.mojang:minecraft", version.ref = "minecraft-snapshot" }
